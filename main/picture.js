@@ -5,7 +5,7 @@ async function fetchTours() {
     );
     const data = await response.json();
 
-    const ul = document.getElementById("tour-list"); 
+    const ul = document.getElementById("tour-images"); 
     data.data.forEach((tour) => {
 
       const li = document.createElement("li");

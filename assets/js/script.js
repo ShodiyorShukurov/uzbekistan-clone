@@ -304,7 +304,7 @@ jQuery(function($) {
       url: "https://server.usbekistanreise.uz/api/v1/review?limit=10", 
       method: "GET",
       success: function (response) {
-        console.log(response.data); 
+ 
         loadTestimonials(response.data);
       },
     });
@@ -312,7 +312,7 @@ jQuery(function($) {
     function loadTestimonials(data) {
       var testimonialSlider = $(".testimonial-slider");
       testimonialSlider.trigger("destroy.owl.carousel").html(""); 
-console.log(data)
+
       data.forEach(function (testimonial) {
         testimonialSlider.append(
           '<div class="slider-item">' +
