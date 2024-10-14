@@ -301,7 +301,7 @@ jQuery(function($) {
     }
 
     $.ajax({
-      url: "https://server.usbekistanreise.uz/api/v1/review?limit=10", 
+      url: "https://server.usbekistanreise.uz/api/v1/review?limit=15", 
       method: "GET",
       success: function (response) {
  
