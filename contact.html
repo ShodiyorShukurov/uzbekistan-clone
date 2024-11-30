@@ -22,47 +22,54 @@
     <link rel="stylesheet" href="assets/css/responsive.css" />
     <link rel="stylesheet" href="assets/css/theme-dark.css" />
     <link rel="icon" href="assets/img/favicon.png" type="image/png" />
-  </head>
-  <body>
-    <script>
-      function sendToTelegram(event) {
-        event.preventDefault();
-
-        const name = document.getElementById("contactName").value;
-        const email = document.getElementById("email").value;
-        const subject = document.getElementById("contactSubject").value;
-        const message = document.getElementById("contactMessage").value;
-
-        fetch(`https://server.usbekistanreise.uz/api/v1/mail`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: name,
-            email: email,
-            message: message,
-            regarding: subject,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-              if (data.status === 200) {
-                alert("Message sent successfully!");
-                document.getElementById("contactForm").reset();
-              } else {
-                alert("Error sending message. Please try again.");
-              }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-            alert("Error sending message. Please try again.");
-          });
-
-        return false;
-      }
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init({
+          publicKey: "wFhUno1PKxyIBugR_",
+        });
+      })();
     </script>
 
+    <script>
+     function sendToTelegram(event) {
+    event.preventDefault();
+
+    const parms = {
+        name: document.getElementById("contactName").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        subject: document.getElementById("contactSubject").value.trim(),
+        message: document.getElementById("contactMessage").value.trim(),
+    };
+
+    if (!parms.name || !parms.email || !parms.subject || !parms.message) {
+        alert("Error: All fields must be filled in.");
+        return false; 
+    }
+
+    emailjs
+        .send("service_1mosx8b", "template_goq07p1", parms)
+        .then(() => {
+            alert("Message sent successfully!");
+            document.getElementById("contactName").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("contactSubject").value = "";
+            document.getElementById("contactMessage").value = "";
+        })
+        .catch((error) => {
+            alert("Error sending message. Please try again.");
+            console.error("EmailJS Error:", error);
+        });
+
+    return false;
+}
+
+    </script>
+  </head>
+  <body>
     <header class="header-area">
       <div class="top-header-area">
         <div class="container">
@@ -170,7 +177,7 @@
                     name="name"
                     class="form-control"
                     id="contactName"
-                    required=""
+                    required
                     data-error="Bitte geben Sie Ihre ein name"
                     placeholder="Name"
                   />
@@ -185,7 +192,7 @@
                     name="email"
                     class="form-control"
                     id="email"
-                    required=""
+                    required
                     data-error="Bitte geben Sie Ihre ein email"
                     placeholder="Email"
                   />
@@ -202,7 +209,7 @@
                     name="subject"
                     class="form-control"
                     id="contactSubject"
-                    required=""
+                    required
                     data-error="Bitte eingeben thema"
                     placeholder="Betreff"
                   />
@@ -220,7 +227,7 @@
                     class="form-control"
                     cols="100"
                     rows="6"
-                    required=""
+                    required
                     data-error="Bitte geben Sie Ihre ein Belegung"
                     placeholder="Ihre Anfrage..."
                   ></textarea>
@@ -431,7 +438,11 @@
                           </div>
                         </div>
                         <div class="col-lg-12">
-                          <button type="submit" class="btn-primary" id="footerMessage">
+                          <button
+                            type="submit"
+                            class="btn-primary"
+                            id="footerMessage"
+                          >
                             nachricht senden
                           </button>
                           <div
@@ -477,6 +488,6 @@
     <!-- script JS -->
     <script src="assets/js/script.js"></script>
 
-    <script src='./main/index.js'></script>
+    <script src="./main/index.js"></script>
   </body>
 </html>
